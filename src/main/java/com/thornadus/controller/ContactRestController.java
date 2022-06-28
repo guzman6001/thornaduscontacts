@@ -1,5 +1,6 @@
 package com.thornadus.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.thornadus.model.Contact;
+import com.thornadus.model.History;
 import com.thornadus.service.api.ContactServiceAPI;
 
 @RestController
@@ -39,6 +41,24 @@ public class ContactRestController {
 
 	@PostMapping(value = "/contacts")
 	public ResponseEntity<Contact> save(@RequestBody @Valid Contact contact) {
+		
+		
+		if (contact.getHistory()==null) {
+			contact.setHistory(new ArrayList<>());
+		}
+		if (contact.getId() == null) {
+			contact.setHistory(new ArrayList<>());
+		}else {
+			Contact oldContact = contactServiceAPI.get(contact.getId());
+			History histery = new History();
+			histery.setEmail(oldContact.getEmail());
+			histery.setFirstName(oldContact.getFirstName());
+			histery.setLastName(oldContact.getLastName());
+			List<History> oldHistory = oldContact.getHistory();
+			oldHistory.add(histery);
+			contact.setHistory(oldHistory);
+		}
+		
 		Contact obj = contactServiceAPI.save(contact);
 		return new ResponseEntity<Contact>(obj, HttpStatus.OK);
 	}

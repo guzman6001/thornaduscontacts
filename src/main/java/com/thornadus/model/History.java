@@ -1,21 +1,19 @@
 package com.thornadus.model;
 
-import java.util.List;
+import java.sql.Timestamp;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-
+import org.hibernate.annotations.CreationTimestamp;
 
 @Entity
-public class Contact {
+public class History {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,11 +32,9 @@ public class Contact {
 	@NotBlank
 	private String email;
 
-	@OneToMany(
-	        cascade = CascadeType.ALL,
-	        orphanRemoval = true
-	    )
-	    private List<History> history;
+	@Column
+	@CreationTimestamp
+	private Timestamp modificationDate;
 
 	public Long getId() {
 		return id;
@@ -72,11 +68,13 @@ public class Contact {
 		this.email = email;
 	}
 
-	public List<History> getHistory() {
-		return history;
+	public Timestamp getModificationDate() {
+		return modificationDate;
 	}
 
-	public void setHistory(List<History> history) {
-		this.history = history;
+	public void setModificationDate(Timestamp modificationDate) {
+		this.modificationDate = modificationDate;
 	}
+
+	
 }

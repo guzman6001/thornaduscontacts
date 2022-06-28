@@ -1,0 +1,11 @@
+com/thornadus/commons/Utils.class
+com/thornadus/model/Contact.class
+com/thornadus/ThornadusContactsApplication.class
+com/thornadus/service/impl/ContactServiceImpl.class
+com/thornadus/repo/ContactRepo.class
+com/thornadus/model/History.class
+com/thornadus/commons/BaseController.class
+com/thornadus/commons/GenericServiceImpl.class
+com/thornadus/service/api/ContactServiceAPI.class
+com/thornadus/controller/ContactRestController.class
+com/thornadus/commons/GenericServiceAPI.class
