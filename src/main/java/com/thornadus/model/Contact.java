@@ -34,6 +34,10 @@ public class Contact {
 	@NotBlank
 	private String email;
 
+	@Column
+	@NotBlank
+	private String phone;
+	
 	@OneToMany(
 	        cascade = CascadeType.ALL,
 	        orphanRemoval = true
@@ -78,5 +82,13 @@ public class Contact {
 
 	public void setHistory(List<History> history) {
 		this.history = history;
+	}
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
 	}
 }

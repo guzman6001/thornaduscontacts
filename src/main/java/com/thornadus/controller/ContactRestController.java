@@ -54,6 +54,7 @@ public class ContactRestController {
 			histery.setEmail(oldContact.getEmail());
 			histery.setFirstName(oldContact.getFirstName());
 			histery.setLastName(oldContact.getLastName());
+			histery.setPhone(oldContact.getPhone());
 			List<History> oldHistory = oldContact.getHistory();
 			oldHistory.add(histery);
 			contact.setHistory(oldHistory);

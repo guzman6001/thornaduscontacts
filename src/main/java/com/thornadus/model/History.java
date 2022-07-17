@@ -31,6 +31,10 @@ public class History {
 	@Column
 	@NotBlank
 	private String email;
+	
+	@Column
+	@NotBlank
+	private String phone;
 
 	@Column
 	@CreationTimestamp
@@ -74,6 +78,14 @@ public class History {
 
 	public void setModificationDate(Timestamp modificationDate) {
 		this.modificationDate = modificationDate;
+	}
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
 	}
 
 	
