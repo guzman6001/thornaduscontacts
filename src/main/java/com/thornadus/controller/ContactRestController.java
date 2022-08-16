@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.thornadus.model.Contact;
 import com.thornadus.model.History;
@@ -36,11 +37,17 @@ public class ContactRestController {
 	
 	@GetMapping(value = "/contacts/{id}")
 	public Contact find(@PathVariable Long id) {
-		return contactServiceAPI.get(id);
+		Contact c = contactServiceAPI.get(id);
+		if (c==null) {
+			throw new ResponseStatusException(
+					  HttpStatus.NOT_FOUND, "Contact not found"
+					);
+		}
+		return c;
 	}
 
 	@PostMapping(value = "/contacts")
-	public ResponseEntity<Contact> save(@RequestBody @Valid Contact contact) {
+	public ResponseEntity<Contact> save(@Valid @RequestBody Contact contact) {
 		
 		
 		if (contact.getHistory()==null) {
@@ -50,13 +57,13 @@ public class ContactRestController {
 			contact.setHistory(new ArrayList<>());
 		}else {
 			Contact oldContact = contactServiceAPI.get(contact.getId());
-			History histery = new History();
-			histery.setEmail(oldContact.getEmail());
-			histery.setFirstName(oldContact.getFirstName());
-			histery.setLastName(oldContact.getLastName());
-			histery.setPhone(oldContact.getPhone());
+			History history = new History();
+			history.setEmail(oldContact.getEmail());
+			history.setFirstName(oldContact.getFirstName());
+			history.setLastName(oldContact.getLastName());
+			history.setPhone(oldContact.getPhone());
 			List<History> oldHistory = oldContact.getHistory();
-			oldHistory.add(histery);
+			oldHistory.add(history);
 			contact.setHistory(oldHistory);
 		}
 		
@@ -70,7 +77,7 @@ public class ContactRestController {
 		if (contact != null) {
 			contactServiceAPI.delete(id);
 		} else {
-			return new ResponseEntity<Contact>(HttpStatus.NO_CONTENT);
+			return new ResponseEntity<Contact>(HttpStatus.NOT_FOUND);
 		}
 		
 		return new ResponseEntity<Contact>(contact, HttpStatus.OK);
